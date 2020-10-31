@@ -1,0 +1,50 @@
+#!/usr/bin/python3
+
+import socket
+import sys
+import time
+import threading
+import os
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+   CWHITE  = '\33[37m'
+
+start_time = time.time()
+
+if(len(sys.argv) != 4):
+	print(f"{color.YELLOW} [+] scanport <TARGET> <START_PORT> <END_PORT>")
+	sys.exit()
+try:
+	target = socket.gethostbyname(sys.argv[1])
+except socket.gaierror:
+	print(f"{color.RED} [-] Name Resolution error")
+	sys.exit()
+
+start_port = int(sys.argv[2])
+end_port = int(sys.argv[3])
+
+print (color.BLUE,"[~] Scanning Target's IP:", target)
+
+def scan_port(port):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.settimeout(3)
+	con = s.connect_ex((target, port))
+	if(not con):
+		print(color.GREEN,"[~] Port {} is OPEN ".format(port))
+		s.close()
+
+for port in range(start_port, end_port+1):
+	thread = threading.Thread(target = scan_port, args = (port,))
+	thread.start()
+end_time = time.time()
+
+#print(f"{color.CYAN} [=] Scanning Completed")
