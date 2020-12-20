@@ -1,0 +1,7 @@
+#!/bin/python3
+import os
+print("[+] Starting Wireless Interface In Monitor Mode!")
+os.system("sudo airmon-ng check kill > tmp")
+os.system("sudo airmon-ng start wlan0mon")
+print("[+] Starting Wireless Scan!")
+os.system("sudo airodump-ng wlan0mon")

