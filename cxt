@@ -1,0 +1,19 @@
+#!/bin/bash
+files=$(ls -a)
+for file in $files
+do
+if [[ $file == "."  ]]
+then
+continue
+elif [[ $file == ".."  ]]
+then
+continue
+else
+fil=$(echo $file | cut -d "." -f 1)
+if [[ $fil == "" ]]
+then
+fil=$(echo $file | cut -d "." -f 2)
+fi
+mv $file .$fil.$1
+fi
+done
