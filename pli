@@ -1,0 +1,66 @@
+#!/bin/bash
+#-------------------------------------------------------------------------VARIABLES-----------------------------------------------------------------------------
+Password=""
+Directory=""
+Directory_2=""
+File=""
+#-------------------------------------------------------------------------FUNCTIONS---------------------------------------------------------------------------------------------
+
+
+cmd_avab () {
+if ! $1 &> /dev/null
+then
+echo -n " [+] Installing Required Packages...."
+apt install $1 -y &> /dev/null
+echo "(Done)"
+fi
+}
+
+
+
+
+
+
+check_pkg () {
+cmd_avab zip
+}
+
+
+
+
+cxt () {
+files=$(ls -a)
+for file in $files
+do
+if [[ $file == "."  ]]
+then
+continue
+elif [[ $file == ".."  ]]
+then
+continue
+else
+fil=$(echo $file | cut -d "." -f 1)
+if [[ $fil == "" ]]
+then
+fil=$(echo $file | cut -d "." -f 2)
+fi
+mv $file .$fil.$1
+fi
+done
+}
+
+
+#-------------------------------------------------------------------------LOGIC-----------------------------------------------------------------------------
+
+check_pkg
+cd $Directory
+if [ ! -e $File ]
+then
+echo " [!] File Doesn't Exists!"
+fi
+unzip -P $Password $File
+cd $Directory_2
+cxt mp4
+read -p " [+] Press Enter To Continue..."
+cd $Directory
+rm -rf $Directory_2
