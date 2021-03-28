@@ -1,0 +1,74 @@
+#!/bin/bash
+#-------------------------------------------------------------------------VARIABLES-----------------------------------------------------------------------------
+Password=""
+Directory=""
+Directory_2=""
+File=""
+#-------------------------------------------------------------------------FUNCTIONS---------------------------------------------------------------------------------------------
+
+check_pkg () {
+cmd_avab zip
+}
+
+
+cmd_avab () {
+if ! command -v $1  &> /dev/null
+then
+echo -n " [+] Installing Required Packages...."
+apt install $1 -y &> /dev/null
+echo "(Done)"
+fi
+}
+
+cxt () {
+files=$(ls -a)
+for file in $files
+do
+if [[ $file == "."  ]]
+then
+continue
+elif [[ $file == ".."  ]]
+then
+continue
+else
+fil=$(echo $file | cut -d "." -f 1)
+if [[ $fil == "" ]]
+then
+fil=$(echo $file | cut -d "." -f 2)
+fi
+mv $file .$fil.$1
+fi
+done
+}
+
+
+#-------------------------------------------------------------------------LOGIC-----------------------------------------------------------------------------
+check_pkg
+cd $Directory
+mkdir add
+if [ ! -e $File ]
+then
+echo " [!] File Doesn't Exists!"
+rm -rf add
+exit 0
+fi
+echo -n " [+] Decrypting File...."
+unzip -P $Password $File &> /dev/null
+echo "(Done)"
+cd $Directory_2
+echo -n " [+] Converting Data In Suitable Format...."
+cxt mp4
+echo "(Done)"
+read -p " [+] Add Files...(Press Enter To Continue)"
+cd $Directory/add
+cxt id
+mv .* $Directory/$Directory_2 &> /dev/null
+rm -rf $Directory/add
+cd $Directory
+cd $Directory_2
+cxt id
+cd $Directory
+echo -n " [+] Encrypting Files....."
+zip -rP $Password $File $Directory_2
+echo "(Done)"
+rm -rf $Directory/$Directory_2
