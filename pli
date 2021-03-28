@@ -57,6 +57,7 @@ cd $Directory
 if [ ! -e $File ]
 then
 echo " [!] File Doesn't Exists!"
+exit 0
 fi
 unzip -P $Password $File
 cd $Directory_2
