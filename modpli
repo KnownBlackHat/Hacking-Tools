@@ -68,6 +68,7 @@ cd $Directory
 cd $Directory_2
 cxt id
 cd $Directory
+rm -rf $File
 echo -n " [+] Encrypting Files....."
 zip -rP $Password $File $Directory_2
 echo "(Done)"
