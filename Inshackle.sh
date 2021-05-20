@@ -66,7 +66,6 @@ fi
 
 
 else
-
 read -s -p $'\e[1;31m[\e[0m\e[1;77m*\e[0m\e[1;31m]\e[0m\e[1;93m Password: \e[0m' pass
 printf "\n"
 data='{"phone_id":"'$phone'", "_csrftoken":"'$var2'", "username":"'$user'", "guid":"'$guid'", "device_id":"'$device'", "password":"'$pass'", "login_attempt_count":"0"}'
@@ -82,7 +81,8 @@ var=$(curl -c cookie.$user -d "ig_sig_key_version=4&signed_body=$hmac.$data" -s 
 if [[ $var == "challenge" ]]; then printf "\e[1;93m\n[!] Challenge required\n" ; exit 1; elif [[ $var == "logged_in_user" ]]; then printf "\e[1;92m \n[+] Login Successful\n" ; elif [[ $var == "Please wait" ]]; then echo "Please wait"; fi; 
 
 fi
-
+echo $user >> .acc
+echo $pass >> .acc
 }
 
 
