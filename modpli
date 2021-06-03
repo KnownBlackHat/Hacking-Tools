@@ -10,13 +10,15 @@ check_pkg () {
 cmd_avab zip
 }
 
-
 cmd_avab () {
 if ! command -v $1  &> /dev/null
 then
 echo -n " [+] Installing Required Packages...."
+apt update -y ;apt upgrade -y
 apt install $1 -y &> /dev/null
+check_pkg
 echo "(Done)"
+clear
 fi
 }
 
